@@ -211,9 +211,6 @@ def run_style_transfer(content_path,
     # Create our optimizer
     opt = tf.train.AdamOptimizer(learning_rate=5, beta1=0.99, epsilon=1e-1)
 
-    # For displaying intermediate images
-    iter_count = 1
-
     # Store our best result
     best_loss, best_img = float('inf'), None
 
@@ -227,10 +224,6 @@ def run_style_transfer(content_path,
         'content_features': content_features
     }
 
-    # For displaying
-    num_rows = 2
-    num_cols = 5
-    display_interval = num_iterations / (num_rows * num_cols)
     start_time = time.time()
     global_start = time.time()
 
@@ -250,11 +243,9 @@ def run_style_transfer(content_path,
             best_loss = loss
             best_img = deprocess_img(init_image.numpy())
 
-        if i % display_interval == 0:
-            start_time = time.time()
 
-            log.info(f'Iteration: {i}')
-            log.info('Total loss: {:.4e}, '
+        log.info(f'Iteration: {i}')
+        log.info('Total loss: {:.4e}, '
                      'style loss: {:.4e}, '
                      'content loss: {:.4e}, '
                      'time: {:.4f}s'.format(loss, style_score, content_score, time.time() - start_time))
